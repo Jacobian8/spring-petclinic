@@ -54,7 +54,7 @@ pipeline {
 
 		  failure {
 			  steps{
-				  slackSend (color: '#FF0000', message: "Buil failed: ${env.JOB_NAME} [${env.BUILD_NUMBER}]")
+				  //slackSend (color: '#FF0000', message: "Buil failed: ${env.JOB_NAME} [${env.BUILD_NUMBER}]")
 				  sh "git bisect start ${potentiallyBad} ${lastSuccess}"
 				  sh "git bisect run mvn clean test"
 				  sh "git bisect reset"
