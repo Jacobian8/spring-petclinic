@@ -22,7 +22,7 @@ pipeline {
       stage('Deploy') {
             steps {
                 sh './mvnw deploy -DaltDeploymentRepository=internal.repo::default::file:///Users/jacobguirguis/Documents/Concordia/6_Winter_2020/SOEN_345/Assignments/Assignment_6/jenkins' 
-                slackSend(color: 'good', message: "Build Succeeded")
+                slackSend(color: 'good', message: "Build Succeeded : '${env.JOB_NAME} [${env.BUILD_NUMBER}]'")
             }
         }
   }
