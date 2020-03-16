@@ -1,6 +1,6 @@
 def count = 0;
-def lastSuccess = null;
-def potentiallyBad = null; 
+def lastSuccess = "";
+def potentiallyBad = ""; 
 
 pipeline {
     agent any
@@ -9,7 +9,7 @@ pipeline {
             steps {
                 script{
                     potentiallyBad = sh (script: "git log -n 1 --pretty=format:'%H'", returnStdout: true)
-                    if (lastSuccess != null) {
+                    if (lastSuccess != "") {
                         if (count == 8) {
                             count = 1
                             sh 'mvn clean install'
@@ -54,7 +54,7 @@ pipeline {
 
 		  failure {
 			  steps{
-				  //slackSend (color: '#FF0000', message: "Buil failed: ${env.JOB_NAME} [${env.BUILD_NUMBER}]")
+				  slackSend (color: '#FF0000', message: "Buil failed: ${env.JOB_NAME} [${env.BUILD_NUMBER}]")
 				  sh "git bisect start ${potentiallyBad} ${lastSuccess}"
 				  sh "git bisect run mvn clean test"
 				  sh "git bisect reset"
